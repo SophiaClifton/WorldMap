@@ -33,3 +33,6 @@ paths.forEach(country =>{
         });
     });
 });
+
+
+// when click on country, open new window of the country, can browse weather of the country's cities
