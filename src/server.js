@@ -5,6 +5,7 @@ const axios = require("axios");
 require('dotenv').config();
 
 const api_key = process.env.API_KEY;
+const time_key_api = process.env.TIME_KEY_API;
 const app = express();
 
 app.use(express.json());
@@ -15,40 +16,43 @@ app.get('/', (req, res) => {
 
 app.listen(3000, () => console.log("Server started on port 3000"))
 
-async function getCountryCapital(countryName) {
+async function getCountryData(countryName) {
+    var countryCapital;
+    var countryRegion;
+    var lat;
+    var long;
     try {
         const countryResponse = await axios.get(`https://restcountries.com/v3.1/name/${countryName}`);
         const countryData = countryResponse.data;
 
         if (countryData && countryData[0]) {
-            return countryData[0].capital ? countryData[0].capital[0] : 'Capital not found';
+            countryCapital = countryData[0].capital ? countryData[0].capital[0] : 'Capital not found';
         } else {
             throw new Error('Country not found');
         }
-    } catch (error) {
-        console.error('Error fetching country data from API:', error);
-        throw new Error('Internal Server Error');
-    }
-}
-
-async function getCountryRegion(countryName) {
-    try {
-        const countryResponse = await axios.get(`https://restcountries.com/v3.1/name/${countryName}`);
-        const countryData = countryResponse.data;
-
         if (countryData && countryData[0]) {
-            let region=  countryData[0].region ? countryData[0].region : 'Region not found';
-            if(region == "Americas")
-                {
-                    region= "America"
-                }
-            console.log("REGION:", region);
-            return region;
+            countryRegion=  countryData[0].region ? countryData[0].region : 'Region not found';
+            if(countryRegion == "Americas")
+            {
+                countryRegion= "America"
+            }
         } else {
             throw new Error('Region not found');
         }
+        if (countryData[0].latlng) {
+            const capitalInfo = countryData[0].capitalInfo;
+            const latlng = capitalInfo ? capitalInfo.latlng : [];
+
+            lat = latlng[0] || 'Latitude not found';
+            long = latlng[1] || 'Longitude not found';
+
+        } else {
+            lat = 'Latitude not found';
+            long = 'Longitude not found';
+        }
+        return {countryCapital, countryRegion, lat, long};
     } catch (error) {
-        console.error('Error fetching region data from API:', error);
+        console.error('Error fetching country data from API:', error);
         throw new Error('Internal Server Error');
     }
 }
@@ -114,16 +118,16 @@ async function getCityWeather(city) {
     }
 }
 
-async function getCityTime(city, region) {
-    const timeUrl = `http://worldtimeapi.org/api/timezone/${region}/${city}.json`;
-
+async function getCityTime(lat, long) {
+    const timeUrl = `https://api.geoapify.com/v1/geocode/reverse?lat=${lat}&lon=${long}&format=json&apiKey=${time_key_api}`;
+    var countryTimezone;
     try {
         const timeResponse = await axios.get(timeUrl);
         const timeData = timeResponse.data;
 
-        if (timeData && timeData.datetime) {
-            console.log("desc:", timeData.datetime)
-            return timeData.datetime;//parse it first
+        if (timeData && timeData.results && timeData.results[0]) {
+            const timezone = timeData.results[0].timezone;
+            return timezone ? timezone.name || 'Timezone not found' : 'Timezone not found';
         } else {
             throw new Error('Time not found');
         }
@@ -138,8 +142,14 @@ app.post('/country', async (req, res) => {
     console.log('Received country name:', countryName);
 
     try {
-        const region = await getCountryRegion(countryName);
-        const capital = await getCountryCapital(countryName);
+        const { countryCapital, countryRegion, lat, long} = await getCountryData(countryName);
+        console.log(countryCapital, countryRegion, lat, long);
+        const timezone = await getCityTime(lat, long);
+        //next: get time from: http://worldtimeapi.org/api/timezone/America/Rankin_Inlet.json
+        //const region = await getCountryRegion(countryName);
+        //const capital = await getCountryCapital(countryName);
+        //lat, long region and cap, can be retrived in one api call
+        //const time = await getCityTime(capital, region);
         //get region
         //const temp = await getCityTemperature(capital);
         //const weather = await getCityWeather(capital);
@@ -149,7 +159,7 @@ app.post('/country', async (req, res) => {
         //console.log(temp);
         //console.log(weather);
 
-        res.json({ capital });
+        res.json({ countryCapital, time});
     } catch (error) {
         res.status(500).json({ error: error.message });
     }

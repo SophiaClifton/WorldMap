@@ -3,6 +3,7 @@ const paths = svgMap.querySelectorAll('path');
 
 const countryName = document.getElementById('country-name');
 const capitalName = document.getElementById('capital-name');
+const capitalTime = document.getElementById('capital-time');
 
 paths.forEach(country =>{
     country.addEventListener("mouseover", function(event){
@@ -29,13 +30,15 @@ paths.forEach(country =>{
             return response.json(); // Parse JSON response
         })
         .then(data => {
-            const { capital} = data;
+            const { capital, time} = data;
 
             countryName.textContent = `${name}, ${capital}`;
+            capitalTime.textContent = `${time}`;
         })
         .catch(error => {
             console.error('Error:', error);
             capitalName.textContent = 'Failed to load capital';
+            capitalTime.textContent = 'Failed to load time';
         });
     });
 });
