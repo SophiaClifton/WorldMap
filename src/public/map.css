@@ -1,4 +1,49 @@
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+#mapSVG {
+    width: 100%;
+    height: 100%;
+}
+
 svg path:hover 
 {
     fill: blue;
 }
+
+.wrapper {
+    top:60%;
+    left:2%;
+    width:400px;
+    height:350px;
+    position:absolute;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.wrapper header{
+    font-size: 23px;
+    font-weight: 500;
+    border-bottom: 1px solid;
+    padding: 10px 10px 10px 30px;
+}
+
+.wrapper header:hover{
+    cursor: move;
+}
+
+
+.wrapper header.active{
+    cursor: move;
+    user-select: none; 
+}
+
+.wrapper .content {
+    margin: 30px 30px 40px;
+}
+

@@ -31,6 +31,28 @@ async function getCountryCapital(countryName) {
     }
 }
 
+async function getCountryRegion(countryName) {
+    try {
+        const countryResponse = await axios.get(`https://restcountries.com/v3.1/name/${countryName}`);
+        const countryData = countryResponse.data;
+
+        if (countryData && countryData[0]) {
+            let region=  countryData[0].region ? countryData[0].region : 'Region not found';
+            if(region == "Americas")
+                {
+                    region= "America"
+                }
+            console.log("REGION:", region);
+            return region;
+        } else {
+            throw new Error('Region not found');
+        }
+    } catch (error) {
+        console.error('Error fetching region data from API:', error);
+        throw new Error('Internal Server Error');
+    }
+}
+
 async function getCityTemperature(city) {
 
     const weatherUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${api_key}`;
@@ -92,22 +114,42 @@ async function getCityWeather(city) {
     }
 }
 
+async function getCityTime(city, region) {
+    const timeUrl = `http://worldtimeapi.org/api/timezone/${region}/${city}.json`;
+
+    try {
+        const timeResponse = await axios.get(timeUrl);
+        const timeData = timeResponse.data;
+
+        if (timeData && timeData.datetime) {
+            console.log("desc:", timeData.datetime)
+            return timeData.datetime;//parse it first
+        } else {
+            throw new Error('Time not found');
+        }
+    } catch (error) {
+        console.error('Error fetching time data from API:', error);
+        throw new Error('Internal Server Error');
+    }
+}
+
 app.post('/country', async (req, res) => {
     const countryName = req.body.name;
     console.log('Received country name:', countryName);
 
     try {
+        const region = await getCountryRegion(countryName);
         const capital = await getCountryCapital(countryName);
-        console.log(capital);
-        const temp = await getCityTemperature(capital);
-        const weather = await getCityWeather(capital);
-        const icon = await getWeatherIcon(capital);
-        console.log("icon is:",icon);
+        //get region
+        //const temp = await getCityTemperature(capital);
+        //const weather = await getCityWeather(capital);
+        //const icon = await getWeatherIcon(capital);
+        //console.log("icon is:",icon);
 
-        console.log(temp);
-        console.log(weather);
+        //console.log(temp);
+        //console.log(weather);
 
-        res.json({ capital, temp, weather, icon });
+        res.json({ capital });
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
