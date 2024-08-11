@@ -1,9 +1,9 @@
 const svgMap = document.getElementById('mapSVG');
 const paths = svgMap.querySelectorAll('path');
 
-const countryName = document.getElementById('country-name');
-const capitalName = document.getElementById('capital-name');
-const capitalTime = document.getElementById('capital-time');
+const countryName = document.getElementById('country');
+const capitalName = document.getElementById('capital');
+const capitalTime = document.getElementById('time');
 
 paths.forEach(country =>{
     country.addEventListener("mouseover", function(event){
@@ -30,10 +30,11 @@ paths.forEach(country =>{
             return response.json(); // Parse JSON response
         })
         .then(data => {
-            const { capital, time} = data;
+            const { countryCapital, date, hours, minutes} = data;
 
-            countryName.textContent = `${name}, ${capital}`;
-            capitalTime.textContent = `${time}`;
+            countryName.textContent = `${name}, ${countryCapital}`;
+            capitalName.textContent = `${countryCapital}`;
+            capitalTime.textContent = `${hours}:${minutes}`;
         })
         .catch(error => {
             console.error('Error:', error);

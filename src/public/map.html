@@ -5,19 +5,44 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="map.css">
     <script src="app.js" defer></script>
-    <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
     <title>Document</title>
 </head>
 <body>
-    <div class = "wrapper">   
-        <header id ="country-name">Country</header>
+    <div class="wrapper">
+        <header id="country">Country</header>
         <div class="content">
-            <div class = "title" id = "capital-time"> time </div>
-            <p id="capital-name">weather</p>
-            <p>population</p>
-            <p>etc ...</p>
+            <div class="flex-container">
+                <div class="c1">
+                    <div class="title" id="capital">New York</div>
+                    <p id="date">Wednesday - June 22</p>
+                    <p id="time">08:23pm</p>
+                </div>
+                <div class="c2">
+                    <table class="nested-table">
+                        <tr id="icon">
+                            <td>
+                                <img src="/home/sophia/Documents/GitHub/WorldMap/src/sun.png" alt="weather-icon">
+                            </td>
+                        </tr>
+                        <tr id="weather">
+                            <td>
+                                <p id="temp">23°C</p>
+                                <p id="weather-desc">Cloudy sky</p>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="flex-row2">
+                <div class="r2">
+                    <div class="title" id="">New York</div>
+                    <p id="">ASDFGHJKJHGFDS</p>
+                </div>
+            </div>
         </div>
     </div>
+    
+
 
     <?xml version="1.0"?>
     <svg id="mapSVG" baseprofile="tiny" fill="#ececec" height="857" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width=".2" version="1.2" viewbox="0 0 2000 857" width="2000" xmlns="http://www.w3.org/2000/svg">

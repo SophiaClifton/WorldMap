@@ -21,12 +21,14 @@ async function getCountryData(countryName) {
     var countryRegion;
     var lat;
     var long;
+    var countryUrl = `https://restcountries.com/v3.1/name/${countryName}`;
     try {
-        const countryResponse = await axios.get(`https://restcountries.com/v3.1/name/${countryName}`);
+        const countryResponse = await axios.get(countryUrl);
         const countryData = countryResponse.data;
 
         if (countryData && countryData[0]) {
-            countryCapital = countryData[0].capital ? countryData[0].capital[0] : 'Capital not found';
+            countryCapital = countryData[0].capital ? countryData[0].capital: 'Capital not found';
+            console.log('cap:', countryCapital);
         } else {
             throw new Error('Country not found');
         }
@@ -36,19 +38,25 @@ async function getCountryData(countryName) {
             {
                 countryRegion= "America"
             }
+            console.log(countryRegion);
         } else {
             throw new Error('Region not found');
         }
-        if (countryData[0].latlng) {
-            const capitalInfo = countryData[0].capitalInfo;
-            const latlng = capitalInfo ? capitalInfo.latlng : [];
-
-            lat = latlng[0] || 'Latitude not found';
-            long = latlng[1] || 'Longitude not found';
-
-        } else {
-            lat = 'Latitude not found';
-            long = 'Longitude not found';
+        if (countryData && countryData[0]) {
+            //for the states: console.log(countryData[0].latlng[0]);
+            if(countryData[0].capitalInfo!={} && countryData[0].capitalInfo.latlng)
+                {
+                    lat = countryData[0].capitalInfo.latlng[0] || "Lat not found";
+                    long = countryData[0].capitalInfo.latlng[1] || "Long not found";
+                }
+            else if (Object.keys(countryData[0].capitalInfo).length === 0 && countryData[0].latlng){
+                lat = countryData[0].latlng[0] || "Lat not found";
+                long = countryData[0].latlng[1] || "Long not found";
+            }
+            else{
+                throw new Error('Lat/Long not found');
+            }
+            
         }
         return {countryCapital, countryRegion, lat, long};
     } catch (error) {
@@ -57,8 +65,10 @@ async function getCountryData(countryName) {
     }
 }
 
-async function getCityTemperature(city) {
-
+async function getCityWeatherData(city) {
+    var temp;
+    var iconUrl;
+    var weatherDesc;
     const weatherUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${api_key}`;
 
     try {
@@ -66,61 +76,34 @@ async function getCityTemperature(city) {
         const weatherData = weatherResponse.data;
 
         if (weatherData && weatherData.main) {
-            return weatherData.main.temp;
+            temp = weatherData.main.temp;
         } else {
             throw new Error('Temperature not found');
         }
-    } catch (error) {
-        console.error('Error fetching weather data from API:', error);
-        throw new Error('Internal Server Error');
-    }
-}
-
-async function getWeatherIcon(city) {
-
-    const weatherUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${api_key}`;
-
-    try {
-        const weatherResponse = await axios.get(weatherUrl);
-        const weatherData = weatherResponse.data;
 
         if (weatherData && weatherData.weather) {
-            console.log("icon:", weatherData.weather[0].icon)
             const icon = weatherData.weather[0].icon;
-            return `https://openweathermap.org/img/wn/${icon}@2x.png`;
+            iconUrl = `https://openweathermap.org/img/wn/${icon}@2x.png`;
 
         } else {
-            throw new Error('Temperature not found');
+            throw new Error('Icon not found');
         }
-    } catch (error) {
-        console.error('Error fetching weather data from API:', error);
-        throw new Error('Internal Server Error');
-    }
-}
-
-async function getCityWeather(city) {
-
-    const weatherUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${api_key}`;
-
-    try {
-        const weatherResponse = await axios.get(weatherUrl);
-        const weatherData = weatherResponse.data;
 
         if (weatherData && weatherData.weather) {
-            console.log("desc:", weatherData.weather[0].description)
-            return weatherData.weather[0].description;
+            weatherDesc= weatherData.weather[0].description;
         } else {
-            throw new Error('Temperature not found');
+            throw new Error('Weather description not found');
         }
+        return {temp, iconUrl, weatherDesc};
+        
     } catch (error) {
         console.error('Error fetching weather data from API:', error);
         throw new Error('Internal Server Error');
     }
 }
 
-async function getCityTime(lat, long) {
+async function getCityTimezone(lat, long) {
     const timeUrl = `https://api.geoapify.com/v1/geocode/reverse?lat=${lat}&lon=${long}&format=json&apiKey=${time_key_api}`;
-    var countryTimezone;
     try {
         const timeResponse = await axios.get(timeUrl);
         const timeData = timeResponse.data;
@@ -129,7 +112,35 @@ async function getCityTime(lat, long) {
             const timezone = timeData.results[0].timezone;
             return timezone ? timezone.name || 'Timezone not found' : 'Timezone not found';
         } else {
-            throw new Error('Time not found');
+            throw new Error('Timezone not found');
+        }
+    } catch (error) {
+        console.error('Error fetching time data from API:', error);
+        throw new Error('Internal Server Error');
+    }
+}
+
+
+async function getCityTime(timezone) {
+    const timeUrl = `http://worldtimeapi.org/api/timezone/${timezone}`;
+    console.log(timeUrl);
+    try {
+        const timeResponse = await axios.get(timeUrl);
+        const timeData = timeResponse.data;
+
+        if (timeData && timeData.datetime) {
+            const datetimeString = timeData.datetime;
+
+            const [datePart, timePartWithOffset] = datetimeString.split('T');
+            const [timePart] = timePartWithOffset.split('+');
+            const [year, month, day] = datePart.split('-');
+            const [hours, minutes, seconds] = timePart.split(':');
+            const date = `${year}-${month}-${day}`;
+
+            return {date, hours, minutes };
+            
+        } else {
+            throw new Error('Time data not found in response');
         }
     } catch (error) {
         console.error('Error fetching time data from API:', error);
@@ -138,28 +149,18 @@ async function getCityTime(lat, long) {
 }
 
 app.post('/country', async (req, res) => {
+    console.log("started");
     const countryName = req.body.name;
     console.log('Received country name:', countryName);
 
     try {
         const { countryCapital, countryRegion, lat, long} = await getCountryData(countryName);
         console.log(countryCapital, countryRegion, lat, long);
-        const timezone = await getCityTime(lat, long);
-        //next: get time from: http://worldtimeapi.org/api/timezone/America/Rankin_Inlet.json
-        //const region = await getCountryRegion(countryName);
-        //const capital = await getCountryCapital(countryName);
-        //lat, long region and cap, can be retrived in one api call
-        //const time = await getCityTime(capital, region);
-        //get region
-        //const temp = await getCityTemperature(capital);
-        //const weather = await getCityWeather(capital);
-        //const icon = await getWeatherIcon(capital);
-        //console.log("icon is:",icon);
-
-        //console.log(temp);
-        //console.log(weather);
-
-        res.json({ countryCapital, time});
+        const timezone = await getCityTimezone(lat, long);
+        const {date, hours, minutes} = await getCityTime(timezone);
+        const  {temp, iconUrl, weatherDesc} = await getCityWeatherData(countryCapital);
+        console.log(temp, iconUrl, weatherDesc);
+        res.json({ countryCapital, date, hours, minutes, });
     } catch (error) {
         res.status(500).json({ error: error.message });
     }

@@ -17,33 +17,103 @@ svg path:hover
 }
 
 .wrapper {
-    top:60%;
-    left:2%;
-    width:400px;
-    height:350px;
-    position:absolute;
+    top: 50vh;
+    left: 2%;
+    width: auto;
+    min-width: 22vw;
+    max-width: 40vw;
+    height: auto;
+    max-height: 40vh;
+    display: flex;
+    flex-direction: column; /* Stack children vertically */
+    position: absolute;
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    background-color: red;
+    overflow: hidden; /* Hide any overflow */
+    padding-bottom: 30px;
 }
 
-.wrapper header{
+.wrapper header {
     font-size: 23px;
     font-weight: 500;
     border-bottom: 1px solid;
-    padding: 10px 10px 10px 30px;
+    padding: 10px;
+    box-sizing: border-box; /* Include padding in height/width */
 }
 
-.wrapper header:hover{
+.wrapper header:hover {
     cursor: move;
 }
 
-
-.wrapper header.active{
+.wrapper header.active {
     cursor: move;
     user-select: none; 
 }
 
 .wrapper .content {
-    margin: 30px 30px 40px;
+    display: flex;
+    flex-direction: column; /* Stack children vertically */
+    flex: 1; /* Allow content to grow and shrink */
+    overflow: auto; /* Enable scrolling if necessary */
+    padding: 0 10px; /* Add horizontal padding */
+    box-sizing: border-box; /* Include padding in height/width */
 }
 
+.flex-container {
+    display: flex;
+    flex-direction: row; /* Row direction for columns */
+    width: 100%; /* Ensure it takes the full width */
+    margin-bottom: 10px; /* Space between flex-container and flex-row2 */
+    box-sizing: border-box; /* Include margins in dimensions */
+}
+
+.c1, .c2 {
+    flex: 1; /* Allow columns to grow and shrink equally */
+    display: flex; /* Ensure children are aligned correctly */
+    flex-direction: column; /* Stack content vertically */
+    justify-content: flex-start; /* Align content to the top */
+    box-sizing: border-box; /* Include padding in dimensions */
+}
+
+.c1 {
+    background-color: purple;
+    padding: 10px;
+}
+
+.c2 {
+    background-color: lightgray;
+    padding: 10px;
+}
+
+.nested-table {
+    width: 100%;
+    height: auto; /* Adjust height automatically */
+    border-collapse: collapse; /* Ensure no extra space in table cells */
+}
+
+#weather {
+    background-color: yellow;
+}
+
+#icon {
+    vertical-align: top;
+    text-align: right;
+    background-color: blue;
+}
+
+#icon img {
+    width: 100px; /* Set the width of the icon */
+    height: 100px; /* Set the height of the icon */
+}
+
+#icon td {
+    padding: 0; /* Remove any padding */
+}
+
+.flex-row2 {
+    background-color: lightgray;
+    padding: 10px;
+    box-sizing: border-box; /* Include padding in dimensions */
+    margin-bottom: 10px; /* Ensure there is a gap at the bottom */
+}
