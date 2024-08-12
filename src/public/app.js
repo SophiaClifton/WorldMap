@@ -4,9 +4,13 @@ const paths = svgMap.querySelectorAll('path');
 const countryName = document.getElementById('country');
 const capitalName = document.getElementById('capital');
 const capitalTime = document.getElementById('time');
+const capitalDate = document.getElementById('date');
+const weatherDesc = document.getElementById('weather-desc');
+const weatherIcon = document.getElementById('weather-icon');
+const cityTemp = document.getElementById('temp');
 
 paths.forEach(country =>{
-    country.addEventListener("mouseover", function(event){
+    country.addEventListener("click", function(event){
 
         let name = country.getAttribute('name'); 
         if (name === null || name.trim() === '') {
@@ -30,11 +34,15 @@ paths.forEach(country =>{
             return response.json(); // Parse JSON response
         })
         .then(data => {
-            const { countryCapital, date, hours, minutes} = data;
-
+            const {countryCapital, date, hours, minutes, temp, iconUrl, weatherDesc} = data;
             countryName.textContent = `${name}, ${countryCapital}`;
             capitalName.textContent = `${countryCapital}`;
             capitalTime.textContent = `${hours}:${minutes}`;
+            capitalDate.textContent = `${date}`;
+            weatherDesc.textContent = `${weatherDesc}`;
+            weatherIcon.src = `${iconUrl}`;
+            cityTemp.textContent = `${temp}`;
+
         })
         .catch(error => {
             console.error('Error:', error);

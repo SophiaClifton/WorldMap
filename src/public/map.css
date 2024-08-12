@@ -20,7 +20,7 @@ svg path:hover
     top: 50vh;
     left: 2%;
     width: auto;
-    min-width: 22vw;
+    min-width: 20vw;
     max-width: 40vw;
     height: auto;
     max-height: 40vh;
@@ -68,7 +68,14 @@ svg path:hover
     box-sizing: border-box; /* Include margins in dimensions */
 }
 
-.c1, .c2 {
+.c1 {
+    flex: 1.2; /* Allow columns to grow and shrink equally */
+    display: flex; /* Ensure children are aligned correctly */
+    flex-direction: column; /* Stack content vertically */
+    justify-content: flex-start; /* Align content to the top */
+    box-sizing: border-box; /* Include padding in dimensions */
+}
+.c2{
     flex: 1; /* Allow columns to grow and shrink equally */
     display: flex; /* Ensure children are aligned correctly */
     flex-direction: column; /* Stack content vertically */
@@ -83,7 +90,6 @@ svg path:hover
 
 .c2 {
     background-color: lightgray;
-    padding: 10px;
 }
 
 .nested-table {

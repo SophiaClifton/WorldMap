@@ -160,7 +160,7 @@ app.post('/country', async (req, res) => {
         const {date, hours, minutes} = await getCityTime(timezone);
         const  {temp, iconUrl, weatherDesc} = await getCityWeatherData(countryCapital);
         console.log(temp, iconUrl, weatherDesc);
-        res.json({ countryCapital, date, hours, minutes, });
+        res.json({ countryCapital, date, hours, minutes, temp, iconUrl, weatherDesc});
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
