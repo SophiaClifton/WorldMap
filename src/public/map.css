@@ -25,12 +25,12 @@ svg path:hover
     height: auto;
     max-height: 40vh;
     display: flex;
-    flex-direction: column; /* Stack children vertically */
+    flex-direction: column; 
     position: absolute;
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
     background-color: red;
-    overflow: hidden; /* Hide any overflow */
+    overflow: hidden; 
     padding-bottom: 30px;
 }
 
@@ -39,7 +39,7 @@ svg path:hover
     font-weight: 500;
     border-bottom: 1px solid;
     padding: 10px;
-    box-sizing: border-box; /* Include padding in height/width */
+    box-sizing: border-box; 
 }
 
 .wrapper header:hover {
@@ -53,34 +53,34 @@ svg path:hover
 
 .wrapper .content {
     display: flex;
-    flex-direction: column; /* Stack children vertically */
-    flex: 1; /* Allow content to grow and shrink */
-    overflow: auto; /* Enable scrolling if necessary */
-    padding: 0 10px; /* Add horizontal padding */
-    box-sizing: border-box; /* Include padding in height/width */
+    flex-direction: column; 
+    flex: 1; 
+    overflow: auto; 
+    padding: 0 10px;
+    box-sizing: border-box; 
 }
 
 .flex-container {
     display: flex;
-    flex-direction: row; /* Row direction for columns */
-    width: 100%; /* Ensure it takes the full width */
-    margin-bottom: 10px; /* Space between flex-container and flex-row2 */
-    box-sizing: border-box; /* Include margins in dimensions */
+    flex-direction: row; 
+    width: 100%; 
+    margin-bottom: 10px; 
+    box-sizing: border-box; 
 }
 
 .c1 {
-    flex: 1.2; /* Allow columns to grow and shrink equally */
-    display: flex; /* Ensure children are aligned correctly */
-    flex-direction: column; /* Stack content vertically */
-    justify-content: flex-start; /* Align content to the top */
-    box-sizing: border-box; /* Include padding in dimensions */
+    flex: 1.2; 
+    display: flex; 
+    flex-direction: column; 
+    justify-content: flex-start; 
+    box-sizing: border-box;
 }
 .c2{
-    flex: 1; /* Allow columns to grow and shrink equally */
-    display: flex; /* Ensure children are aligned correctly */
-    flex-direction: column; /* Stack content vertically */
-    justify-content: flex-start; /* Align content to the top */
-    box-sizing: border-box; /* Include padding in dimensions */
+    flex: 1;
+    display: flex; 
+    flex-direction: column; 
+    justify-content: flex-start; 
+    box-sizing: border-box; 
 }
 
 .c1 {
@@ -94,8 +94,8 @@ svg path:hover
 
 .nested-table {
     width: 100%;
-    height: auto; /* Adjust height automatically */
-    border-collapse: collapse; /* Ensure no extra space in table cells */
+    height: auto; 
+    border-collapse: collapse; 
 }
 
 #weather {
@@ -104,22 +104,66 @@ svg path:hover
 
 #icon {
     vertical-align: top;
-    text-align: right;
+    text-align: center;
     background-color: blue;
 }
 
 #icon img {
-    width: 100px; /* Set the width of the icon */
-    height: 100px; /* Set the height of the icon */
+    width: 180px; 
+    height: 160px; 
 }
 
 #icon td {
-    padding: 0; /* Remove any padding */
+    padding: 0; 
+    margin:0
 }
 
 .flex-row2 {
     background-color: lightgray;
     padding: 10px;
-    box-sizing: border-box; /* Include padding in dimensions */
-    margin-bottom: 10px; /* Ensure there is a gap at the bottom */
+    box-sizing: border-box;
+    margin-bottom: 10px; 
 }
+
+#time{
+    text-align: center;
+    font-size:30px;
+    margin:0;
+    margin-top: 10px;
+}
+
+#temp{
+    text-align: center;
+    font-size: 25px;
+    margin: 5px;
+    margin-top: 15px;
+}
+#weather-desc {
+    text-align: center;
+    font-size: 15px;
+    margin: 5px;
+}
+
+#loading-overlay {
+    display: none; /* hidden by default */
+    position: relative;
+    width: 100%; 
+    height: 100%; 
+    display: flex; 
+    align-items: center;
+    justify-content: center; 
+}
+
+#loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 30px;
+    padding-bottom: 0;
+}
+
+#loading img {
+    width: 60px;
+    height: 60px;
+}
+
