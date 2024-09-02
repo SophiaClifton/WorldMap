@@ -21,14 +21,15 @@ paths.forEach(country =>{
 
         // Show loading indicator
         loadingIndicator.style.display = 'block';
-        if(name == "United States"){
-            name = "United States of America";
-        }
+
         // Hide the rest of the content
         document.querySelector('.hidden-content').style.display = 'none';
 
         countryName.textContent= name;
-
+        if(name == "United States"){
+            name = "United States of America";
+        }
+        
         // Send the country name to the server
         fetch('/country', {
             method: 'POST',
