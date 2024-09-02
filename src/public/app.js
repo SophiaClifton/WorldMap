@@ -21,14 +21,12 @@ paths.forEach(country =>{
 
         // Show loading indicator
         loadingIndicator.style.display = 'block';
-
+        if(name == "United States"){
+            name = "United States of America";
         // Hide the rest of the content
         document.querySelector('.hidden-content').style.display = 'none';
 
         countryName.textContent= name;
-        if(name == "United States"){
-            name = "United States of America";
-        }
 
         // Send the country name to the server
         fetch('/country', {
@@ -36,7 +34,6 @@ paths.forEach(country =>{
             headers: {
                 'Content-Type': 'application/json'
             },
-            
             body: JSON.stringify({ name: name })
         })
         .then(response => {
@@ -151,7 +148,7 @@ function getAbbreviatedDay(weekDay) {
     const index = parseInt(weekDay, 10);
     return index >= 0 && index < days.length ? days[index] : 'Invalid day';
   }
-  
+
 
 const wrapper = document.querySelector(".wrapper");
 const header = wrapper.querySelector("header");
@@ -166,7 +163,7 @@ function onDrag(event) {
     const deltaX = event.clientX - startX;
     const deltaY = event.clientY - startY;
 
-    // update the transform property to move the element
+    // Update the transform property to move the element
     wrapper.style.transform = `translate(${initialTransformX + deltaX}px, ${initialTransformY + deltaY}px)`;
 }
 

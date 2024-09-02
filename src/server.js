@@ -2,12 +2,12 @@ const express = require("express");
 const request = require("request");
 const path = require("path");
 const axios = require("axios");
+const mysql = require('mysql');
 require('dotenv').config();
 
 const api_key = process.env.API_KEY;
 const time_key_api = process.env.TIME_KEY_API;
 const app = express();
-
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
 app.get('/', (req, res) => {
@@ -15,6 +15,21 @@ app.get('/', (req, res) => {
 });
 
 app.listen(3000, () => console.log("Server started on port 3000"))
+
+const connection = mysql.createConnection({
+    host: 'localhost',
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    database: 'worldmap_db',
+    insecureAuth: true
+  });
+connection.connect((err) => {
+if (err) {
+    console.error('Error connecting: ' + err.stack);
+    return;
+}
+console.log('Connected as id ' + connection.threadId);
+});
 
 async function getCountryData(countryName) {
     var countryCapital;
@@ -130,7 +145,6 @@ async function getCityTime(timezone) {
             const [year, month, day] = datePart.split('-');
             const [hours, minutes, seconds] = timePart.split(':');
             const date = `${year}-${month}-${day}`;
-            console.log(weekDay);
             return {date, hours, minutes, weekDay };
             
         } else {
@@ -142,6 +156,20 @@ async function getCityTime(timezone) {
     }
 }
 
+const getPopulationData = (countryName) => {
+    const query = `
+      SELECT c.country AS country, ci.city, ci.population
+      FROM cities ci
+      JOIN countries c ON ci.country_id = c.id
+      WHERE c.country = ?
+    `;
+  
+    connection.query(query, [countryName], (error, results) => {
+      if (error) throw error;
+      console.log(results);
+    });
+  };
+
 app.post('/country', async (req, res) => {
     const countryName = req.body.name;
 
@@ -152,8 +180,10 @@ app.post('/country', async (req, res) => {
         const {date, hours, minutes, weekDay} = await getCityTime(timezone);
         const  {temp, icon, weatherDesc} = await getCityWeatherData(countryCapital);
         //console.log("api info aquired...");
-        res.json({countryCapital, date, hours, minutes, weekDay, temp, icon, weatherDesc});
+        const pop = getPopulationData(countryName);
+        res.json({countryCapital, date, hours, minutes, weekDay, temp, icon, weatherDesc, pop});
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
+
 });
