@@ -23,6 +23,7 @@ paths.forEach(country =>{
         loadingIndicator.style.display = 'block';
         if(name == "United States"){
             name = "United States of America";
+        }
         // Hide the rest of the content
         document.querySelector('.hidden-content').style.display = 'none';
 
