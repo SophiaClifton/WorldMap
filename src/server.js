@@ -169,9 +169,9 @@ const getPopulationData = async (countryName, cityName) => {
             if (error) return reject(error);
 
             if (results.length > 0) {
-                resolve(results[0].population);
+                resolve("~"+results[0].population+" people");
             } else {
-                resolve('City not found');
+                resolve("City not found");
             }
         });
     });
@@ -183,12 +183,15 @@ app.post('/country', async (req, res) => {
 
     try {
         //console.log("api info being retrieved...");
-        const { countryCapital, countryRegion, lat, long} = await getCountryData(countryName);
+        const {countryCapital, countryRegion, lat, long} = await getCountryData(countryName);
         const timezone = await getCityTimezone(lat, long);
         const {date, hours, minutes, weekDay} = await getCityTime(timezone);
-        const  {temp, icon, weatherDesc} = await getCityWeatherData(countryCapital);
+        const  {temp, icon, weatherDesc} = await getCityWeatherData(countryCapital[0]);
+        console.log(countryName, countryCapital[0]);
         //console.log("api info aquired...");
-        const pop = await getPopulationData(countryName, countryCapital);
+        const pop = await getPopulationData(countryName, countryCapital[0]);
+
+        console.log(pop);
         res.json({countryCapital, date, hours, minutes, weekDay, temp, icon, weatherDesc, pop});
     } catch (error) {
         res.status(500).json({ error: error.message });

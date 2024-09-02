@@ -8,6 +8,7 @@ const capitalDate = document.getElementById('date');
 const weather_Desc = document.getElementById('weather-desc');
 const weatherIcon = document.getElementById('weather-icon');
 const cityTemp = document.getElementById('temp');
+const population = document.getElementById('pop');
 const loadingIndicator = document.getElementById('loading');
 loadingIndicator.style.display = 'none';
 
@@ -46,18 +47,18 @@ paths.forEach(country =>{
             return response.json(); 
         })
         .then(data => {
-            const {countryCapital, date, hours, minutes, weekDay, temp, icon, weatherDesc} = data;
+            const {countryCapital, date, hours, minutes, weekDay, temp, icon, weatherDesc, pop} = data;
             if(name == "United States of America"){
                 name = "United States";
             }
-            countryName.textContent = `${name}, ${countryCapital}`;
-            capitalName.textContent = `${countryCapital}`;
+            countryName.textContent = `${name}, ${countryCapital[0]}`;
+            capitalName.textContent = `${countryCapital[0]}`;
             capitalTime.textContent = `${getTime(hours,minutes)}`;
             capitalDate.textContent = `${formatDate(date, weekDay)}`;
             weather_Desc.textContent = `${weatherDesc}`;
             weatherIcon.src = `${getIcon(icon)}`;
             cityTemp.textContent = `${getCelsius(temp)}°C`;
-
+            population.textContent = `${pop}`;
             loadingIndicator.style.display = 'none';
 
             // Show the rest of the content
