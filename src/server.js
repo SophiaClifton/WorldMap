@@ -156,19 +156,27 @@ async function getCityTime(timezone) {
     }
 }
 
-const getPopulationData = (countryName) => {
+const getPopulationData = async (countryName, cityName) => {
     const query = `
-      SELECT c.country AS country, ci.city, ci.population
+      SELECT ci.population
       FROM cities ci
       JOIN countries c ON ci.country_id = c.id
-      WHERE c.country = ?
+      WHERE c.country = ? AND ci.city = ?
     `;
-  
-    connection.query(query, [countryName], (error, results) => {
-      if (error) throw error;
-      console.log(results);
+
+    return new Promise((resolve, reject) => {
+        connection.query(query, [countryName, cityName], (error, results) => {
+            if (error) return reject(error);
+
+            if (results.length > 0) {
+                resolve(results[0].population);
+            } else {
+                resolve('City not found');
+            }
+        });
     });
-  };
+};
+
 
 app.post('/country', async (req, res) => {
     const countryName = req.body.name;
@@ -180,7 +188,7 @@ app.post('/country', async (req, res) => {
         const {date, hours, minutes, weekDay} = await getCityTime(timezone);
         const  {temp, icon, weatherDesc} = await getCityWeatherData(countryCapital);
         //console.log("api info aquired...");
-        const pop = getPopulationData(countryName);
+        const pop = await getPopulationData(countryName, countryCapital);
         res.json({countryCapital, date, hours, minutes, weekDay, temp, icon, weatherDesc, pop});
     } catch (error) {
         res.status(500).json({ error: error.message });
