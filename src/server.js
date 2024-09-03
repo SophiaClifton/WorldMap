@@ -3,6 +3,7 @@ const request = require("request");
 const path = require("path");
 const axios = require("axios");
 const mysql = require('mysql');
+const { count } = require("console");
 require('dotenv').config();
 
 const api_key = process.env.API_KEY;
@@ -155,8 +156,8 @@ async function getCityTime(timezone) {
         throw new Error('Internal Server Error');
     }
 }
-
-const getPopulationData = async (countryName, cityName) => {
+/*
+const getPopulationData = async (countryName, lat, long) => {
     const query = `
       SELECT ci.population
       FROM cities ci
@@ -176,6 +177,56 @@ const getPopulationData = async (countryName, cityName) => {
         });
     });
 };
+*/
+const getPopulationData = async (countryName, cityName, lat, long) => {
+    if(countryName=="United States of America"){
+        const query = `
+        SELECT ci.population, c.id
+        FROM cities ci
+        JOIN countries c ON ci.country_id = c.id
+        WHERE c.country = ? AND ABS(ci.latitude - ?) <= 0.05 AND ABS(ci.longitude - ?) <= 0.05
+        `;
+
+        return new Promise((resolve, reject) => {
+            connection.query(query, [countryName, lat, long], (error, results) => {
+                if (error) {
+                    console.error("Database query error:", error);
+                    return reject("An error occurred while fetching data.");
+                }
+
+                if (results.length > 0) {
+                    console.log(results[0]);
+                    resolve(`~${results[0].population} people - Possibly metropolitan area`);
+                } else {
+                    resolve("City not found");
+                }
+            });
+        });
+    }
+    
+    else{
+
+        const query = `
+        SELECT ci.population
+        FROM cities ci
+        JOIN countries c ON ci.country_id = c.id
+        WHERE c.country = ? AND ci.city = ?
+      `;
+  
+        return new Promise((resolve, reject) => {
+            connection.query(query, [countryName, cityName], (error, results) => {
+                if (error) return reject(error);
+    
+                if (results.length > 0) {
+                    resolve("~"+results[0].population+" people");
+                } else {
+                    resolve("City not found");
+                }
+            });
+        });
+    }
+    
+};
 
 
 app.post('/country', async (req, res) => {
@@ -187,11 +238,9 @@ app.post('/country', async (req, res) => {
         const timezone = await getCityTimezone(lat, long);
         const {date, hours, minutes, weekDay} = await getCityTime(timezone);
         const  {temp, icon, weatherDesc} = await getCityWeatherData(countryCapital[0]);
-        console.log(countryName, countryCapital[0]);
         //console.log("api info aquired...");
-        const pop = await getPopulationData(countryName, countryCapital[0]);
-
-        console.log(pop);
+        console.log(lat, long);
+        const pop = await getPopulationData(countryName, countryCapital[0],lat, long);
         res.json({countryCapital, date, hours, minutes, weekDay, temp, icon, weatherDesc, pop});
     } catch (error) {
         res.status(500).json({ error: error.message });
