@@ -27159,7 +27159,7 @@ INSERT INTO `cities` (`id`, `country_id`, `city`, `latitude`, `longitude`, `popu
 	(27126, 34, "Tsavo", -2.9828, 38.4666, 414),
 	(27127, 35, "Rangoon", 16.795, 96.16, 5430000),
 	(27128, 35, "Mandalay", 21.9831, 96.0844, 1225546),
-	(27129, 35, "Nay Pyi Taw", 19.7475, 96.115, 1160242),
+	(27129, 35, "Naypyidaw", 19.7475, 96.115, 1160242),
 	(27130, 35, "Hpa-An", 16.8906, 97.6333, 421525),
 	(27131, 35, "Bago", 17.3433, 96.4981, 284179),
 	(27132, 35, "Myeik", 12.4394, 98.6003, 266720),
@@ -32554,7 +32554,7 @@ INSERT INTO `cities` (`id`, `country_id`, `city`, `latitude`, `longitude`, `popu
 	(32520, 49, "Rivne", 48.2403, 31.7492, 5505),
 	(32521, 49, "Mykolayivka", 48.3823, 36.3086, 5318),
 	(32522, 49, "Yalta", 46.9667, 37.2667, 5159),
-	(32523, 50, "Sanaa", 15.35, 44.2, 2957000),
+	(32523, 50, "Sana'a", 15.35, 44.2, 2957000),
 	(32524, 50, "Ta`izz", 13.5789, 44.0219, 615467),
 	(32525, 50, "Al Hudaydah", 14.8022, 42.9511, 548433),
 	(32526, 50, "Aden", 12.8, 45.0333, 507355),
@@ -38015,7 +38015,7 @@ INSERT INTO `cities` (`id`, `country_id`, `city`, `latitude`, `longitude`, `popu
 	(37980, 83, "Hayma\'", 19.9333, 56.3167, 0),
 	(37981, 83, "Al Madrah Sama\'il", 23.3032, 57.9782, 47718),
 	(37982, 83, "Mirbat", 16.9924, 54.6918, 1120),
-	(37983, 84, "Ulaanbaatar", 47.9214, 106.9055, 1396288),
+	(37983, 84, "Ulan Bator", 47.9214, 106.9055, 1396288),
 	(37984, 84, "Moron", 49.6375, 100.1614, 134530),
 	(37985, 84, "Erdenet", 49.0278, 104.0444, 101260),
 	(37986, 84, "Darhan", 49.4867, 105.9228, 74738),
@@ -40034,7 +40034,7 @@ INSERT INTO `cities` (`id`, `country_id`, `city`, `latitude`, `longitude`, `popu
 	(39998, 120, "Savalou", 7.9281, 1.9756, 0),
 	(39999, 120, "Save", 8.0342, 2.4866, 31444),
 	(40000, 121, "Colombo", 6.9167, 79.8333, 752993),
-	(40001, 121, "Sri Jayewardenepura Kotte", 6.9, 79.9164, 115826),
+	(40001, 121, "Sri Jayawardenepura Kotte", 6.9, 79.9164, 115826),
 	(40002, 121, "Moratuwa", 6.7804, 79.88, 200000),
 	(40003, 121, "Kandy", 7.297, 80.6385, 161000),
 	(40004, 121, "Negombo", 7.2111, 79.8386, 142136),
@@ -42538,7 +42538,7 @@ INSERT INTO `cities` (`id`, `country_id`, `city`, `latitude`, `longitude`, `popu
 	(42502, 177, "Santana", 0.26, 6.7414, 0),
 	(42503, 177, "Neves", 0.3586, 6.5525, 0),
 	(42504, 177, "Sao Joao dos Angolares", 0.1342, 6.6494, 0),
-	(42505, 178, "Port-Vila", -17.7333, 168.3167, 51437),
+	(42505, 178, "Port Vila", -17.7333, 168.3167, 51437),
 	(42506, 178, "Luganville", -15.5126, 167.1766, 13397),
 	(42507, 178, "Lakatoro", -16.1069, 167.4208, 705),
 	(42508, 178, "Isangel", -19.5417, 169.2817, 0),
@@ -42939,6 +42939,8 @@ INSERT INTO `cities` (`id`, `country_id`, `city`, `latitude`, `longitude`, `popu
 	(42903, 238, "Ceiba", 18.265, -65.6488, 5551),
 	(42904, 238, "Coco", 18.001, -66.2603, 5108),
 	(42905, 239, "Charlotte Amalie", 18.3419, -64.9332, 0);
+	(42905, 240, "Gaza", 31.5, 34.46, 590000);
+	(42905, 240, "Ramallah", 31.9, 35.2, 38998);
 
 /*!40000 ALTER TABLE `cities` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -42987,11 +42989,11 @@ INSERT INTO `countries` (`id`, `country`) VALUES
 	(151, "Botswana"),
 	(5, "Brazil"),
 	(227, "British Virgin Islands"),
-	(180, "Brunei"),
+	(180, "Brunei Darussalam"),
 	(89, "Bulgaria"),
 	(60, "Burkina Faso"),
 	(124, "Burundi"),
-	(167, "Cabo Verde"),
+	(167, "Cape Verde"),
 	(66, "Cambodia"),
 	(61, "Cameroon"),
 	(36, "Canada"),
@@ -43003,8 +43005,8 @@ INSERT INTO `countries` (`id`, `country`) VALUES
 	(235, "Christmas Island"),
 	(26, "Colombia"),
 	(169, "Comoros"),
-	(76, "Congo (Brazzaville)"),
-	(18, "Congo (Kinshasa)"),
+	(76, "Congo"),
+	(18, "Democratic Republic of the Congo"),
 	(210, "Cook Islands"),
 	(146, "Costa Rica"),
 	(38, "Côte d\'Ivoire"),
@@ -43012,7 +43014,7 @@ INSERT INTO `countries` (`id`, `country`) VALUES
 	(65, "Cuba"),
 	(162, "Curaçao"),
 	(143, "Cyprus"),
-	(87, "Czechia"),
+	(87, "Czech Republic"),
 	(98, "Denmark"),
 	(132, "Djibouti"),
 	(200, "Dominica"),
@@ -43024,7 +43026,7 @@ INSERT INTO `countries` (`id`, `country`) VALUES
 	(109, "Eritrea"),
 	(137, "Estonia"),
 	(47, "Ethiopia"),
-	(215, "Falkland Islands (Islas Malvinas)"),
+	(215, "Falkland Islands"),
 	(202, "Faroe Islands"),
 	(207, "Federated States of Micronesia"),
 	(174, "Fiji"),
@@ -43115,7 +43117,7 @@ INSERT INTO `countries` (`id`, `country`) VALUES
 	(53, "North Korea"),
 	(214, "Northern Mariana Islands"),
 	(122, "Norway"),
-	(83, "Oman"),
+	(83, " Oman"),/*extra space because rest api only recognizes " Oman" otherwise leads to Romania*/
 	(17, "Pakistan"),
 	(228, "Palau"),
 	(114, "Panama"),
@@ -43170,7 +43172,7 @@ INSERT INTO `countries` (`id`, `country`) VALUES
 	(119, "Tajikistan"),
 	(27, "Tanzania"),
 	(12, "Thailand"),
-	(149, "The Bahamas"),
+	(149, "Bahamas"),
 	(187, "The Gambia"),
 	(153, "Timor-Leste"),
 	(116, "Togo"),
@@ -43181,7 +43183,7 @@ INSERT INTO `countries` (`id`, `country`) VALUES
 	(197, "Turkmenistan"),
 	(206, "Turks And Caicos Islands"),
 	(208, "Tuvalu"),
-	(239, "U.S. Virgin Islands"),
+	(239, "United States Virgin Islands"),
 	(82, "Uganda"),
 	(49, "Ukraine"),
 	(58, "United Arab Emirates"),
@@ -43198,6 +43200,7 @@ INSERT INTO `countries` (`id`, `country`) VALUES
 	(50, "Yemen"),
 	(79, "Zambia"),
 	(64, "Zimbabwe");
+	(240, "Palestine");/*had to make my own entry*/
 
 /*!40000 ALTER TABLE `countries` ENABLE KEYS */;
 UNLOCK TABLES;

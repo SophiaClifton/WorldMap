@@ -79,8 +79,8 @@ async function getCountryData(countryName) {
 
 async function getCityWeatherData(city) {
     var temp;
-    var weatherDesc;
-    var icon;
+    var weatherDesc ="?";
+    var icon =":(";
     const weatherUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${api_key}`;
     try {
         const weatherResponse = await axios.get(weatherUrl);
@@ -107,6 +107,7 @@ async function getCityWeatherData(city) {
         return {temp, icon, weatherDesc};
         
     } catch (error) {
+        return {temp, icon, weatherDesc};
         console.error('Error fetching weather data from API:', error);
         throw new Error('Internal Server Error');
     }
@@ -156,28 +157,7 @@ async function getCityTime(timezone) {
         throw new Error('Internal Server Error');
     }
 }
-/*
-const getPopulationData = async (countryName, lat, long) => {
-    const query = `
-      SELECT ci.population
-      FROM cities ci
-      JOIN countries c ON ci.country_id = c.id
-      WHERE c.country = ? AND ci.city = ?
-    `;
 
-    return new Promise((resolve, reject) => {
-        connection.query(query, [countryName, cityName], (error, results) => {
-            if (error) return reject(error);
-
-            if (results.length > 0) {
-                resolve("~"+results[0].population+" people");
-            } else {
-                resolve("City not found");
-            }
-        });
-    });
-};
-*/
 const getPopulationData = async (countryName, cityName, lat, long) => {
     if(countryName=="United States of America"){
         const query = `
@@ -195,7 +175,6 @@ const getPopulationData = async (countryName, cityName, lat, long) => {
                 }
 
                 if (results.length > 0) {
-                    console.log(results[0]);
                     resolve(`~${results[0].population} people - Possibly metropolitan area`);
                 } else {
                     resolve("City not found");

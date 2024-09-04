@@ -105,8 +105,14 @@ function getIcon(icon){
 }
 
 function getCelsius(temp){
-    const celsius = Number(temp)-273.15;
-    return Math.round(celsius * 10) / 10;
+    if(temp != undefined){
+        console.log(temp);
+        const celsius = Number(temp)-273.15;
+        return Math.round(celsius * 10) / 10;
+    }
+    else{
+        return "?"
+    }
 }
 
 function getTime(hours, minutes){
