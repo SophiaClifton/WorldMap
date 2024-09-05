@@ -31,9 +31,9 @@ svg path:hover
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
     overflow: hidden; 
     padding-bottom: 30px;
-    background: url('gifs/rain.gif') no-repeat center center fixed;
+    background: url('gifs/sun.gif') no-repeat center center fixed;
     background-size: cover;
-    color: #0a7174;
+    color: #ffe5dc;
 }
 
 .wrapper header {
@@ -79,8 +79,10 @@ svg path:hover
     flex: 1.2; 
     display: flex; 
     flex-direction: column; 
-    justify-content: flex-start; 
+    justify-content: center; 
     box-sizing: border-box;
+    border: 2px solid;
+    border-top: 0px solid;
 }
 .c2{
     flex: 1;
@@ -88,9 +90,14 @@ svg path:hover
     flex-direction: column; 
     justify-content: flex-start; 
     box-sizing: border-box; 
+    border-bottom: 2px solid;
+    border-right: 2px solid;
+    border-top: 0px solid;
 }
 
 .c1 {
+    vertical-align: middle;
+    text-align: center;
     padding: 10px;
 }
 
@@ -119,26 +126,29 @@ svg path:hover
 .flex-row2 {
     padding: 10px;
     box-sizing: border-box;
-    margin-bottom: 10px; 
+    margin-bottom: 5px; 
+    padding-bottom:0px;
+    border: 2px solid;
 }
 
 #time{
     text-align: center;
     font-size:30px;
     margin:0;
-    margin-top: 10px;
+    margin-top: 5px;
+    font-family: bold;
 }
 
 #temp{
     text-align: center;
     font-size: 25px;
     margin: 5px;
-    margin-top: 15px;
 }
 #weather-desc {
     text-align: center;
     font-size: 15px;
     margin: 5px;
+    margin-bottom: 10px;
 }
 
 #loading-overlay {

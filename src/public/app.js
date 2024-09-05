@@ -81,45 +81,56 @@ window.onload = function() {
 function getIcon(icon){
     switch (icon) {
         case "01d":
+            document.getElementById('weatherBG').style.color = "#076a0c";
             document.getElementById('weatherBG').style.backgroundImage = "url('gifs/sun.gif')";
             return "images/sun.png";
         case "01n":
-            //fff7fe
+            document.getElementById('weatherBG').style.color = "#fce6ff";
             document.getElementById('weatherBG').style.backgroundImage = "url('gifs/moon.gif')";
             return "images/moon.png";
         case "02d":
+            document.getElementById('weatherBG').style.color = "#fce6ff";
             document.getElementById('weatherBG').style.backgroundImage = "url('gifs/cloudSun.gif')";
             return "images/cloudSun.png";
         case "02n":
+            document.getElementById('weatherBG').style.color = "#fce6ff";
             document.getElementById('weatherBG').style.backgroundImage = "url('gifs/cloudMoon.gif')";
             return "images/cloudMoon.png";
         case "03d" || "03n":
+            //?
+            document.getElementById('weatherBG').style.color = "#fce6ff";
             document.getElementById('weatherBG').style.backgroundImage = "url('gifs/cloud.gif')";
             return "images/cloud.png";
         case "04d" || "04n":
-            //#ffe5dc
+            document.getElementById('weatherBG').style.color = "#fce6ff";
             document.getElementById('weatherBG').style.backgroundImage = "url('gifs/brokenClouds.gif')";
             return "images/brokenClouds.png";
         case "09d" || "09n":
+            document.getElementById('weatherBG').style.color = "#fce6ff";
             document.getElementById('weatherBG').style.backgroundImage = "url('gifs/rain.gif')";
             return "images/rain.png";
         case "10d":
+            document.getElementById('weatherBG').style.color = "#fce6ff";
             document.getElementById('weatherBG').style.backgroundImage = "url('gifs/sunRain.gif')";
             return "images/sunRain.png";
         case "10n":
+            document.getElementById('weatherBG').style.color = "#fce6ff";
             document.getElementById('weatherBG').style.backgroundImage = "url('gifs/moonRain.gif')";
             return "images/moonRain.png";
         case "11d" || "11n":
+            document.getElementById('weatherBG').style.color = "#fce6ff";
             document.getElementById('weatherBG').style.backgroundImage = "url('gifs/storm.gif')";
             return "images/storm.png";
         case "13d" || "13n":
+            document.getElementById('weatherBG').style.color = "#262f5d";
             document.getElementById('weatherBG').style.backgroundImage = "url('gifs/snow.gif')";
             return "images/snow.png";
         case "50d" || "50n":
-            //0a7174
+            document.getElementById('weatherBG').style.color = "#0a7174";
             document.getElementById('weatherBG').style.backgroundImage = "url('gifs/mist.gif')";
             return "images/mist.png";
         default:
+            document.getElementById('weatherBG').style.color = "#0a7174";
             document.getElementById('weatherBG').style.backgroundImage = "url('gifs/mist.gif')";
             return "images/mist.png";
     }
