@@ -230,3 +230,16 @@ document.addEventListener("mouseup", () => {
         document.removeEventListener("mousemove", onDrag);
     }
 });
+
+let mode = 1;
+
+function toggleDarkMode() {
+    mode = (mode + 1) % 2; // Corrected increment and modulo operation
+    if (mode == 1) {
+        document.getElementById('darkModeToggle').querySelector('img').src = "images/day.png";
+    } else {
+        document.getElementById('darkModeToggle').querySelector('img').src = "images/night.png"; 
+    }
+    document.body.classList.toggle('dark-mode');
+}
+
