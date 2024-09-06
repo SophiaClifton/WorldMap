@@ -1,66 +1,68 @@
-const svgMap = document.getElementById('mapSVG');
-const paths = svgMap.querySelectorAll('path');
+if (typeof document !== 'undefined') {
+    const svgMap = document.getElementById('mapSVG');
+    const paths = svgMap.querySelectorAll('path');
 
-const countryName = document.getElementById('country');
-const capitalName = document.getElementById('capital');
-const capitalTime = document.getElementById('time');
-const capitalDate = document.getElementById('date');
-const weather_Desc = document.getElementById('weather-desc');
-const weatherIcon = document.getElementById('weather-icon');
-const cityTemp = document.getElementById('temp');
-const population = document.getElementById('pop');
-const loadingIndicator = document.getElementById('loading');
-loadingIndicator.style.display = 'none';
+    const countryName = document.getElementById('country');
+    const capitalName = document.getElementById('capital');
+    const capitalTime = document.getElementById('time');
+    const capitalDate = document.getElementById('date');
+    const weather_Desc = document.getElementById('weather-desc');
+    const weatherIcon = document.getElementById('weather-icon');
+    const cityTemp = document.getElementById('temp');
+    const population = document.getElementById('pop');
+    const loadingIndicator = document.getElementById('loading');
+    loadingIndicator.style.display = 'none';
 
-function fetchCountryData(name) {
-    // Show loading indicator
-    loadingIndicator.style.display = 'block';
+    function fetchCountryData(name) {
+        // Show loading indicator
+        loadingIndicator.style.display = 'block';
 
-    // Hide the rest of the content
-    document.querySelector('.hidden-content').style.display = 'none';
+        // Hide the rest of the content
+        document.querySelector('.hidden-content').style.display = 'none';
 
-    countryName.textContent = name;
-    if (name == "United States") {
-        name = "United States of America";
+        countryName.textContent = name;
+        if (name == "United States") {
+            name = "United States of America";
+        }
+
+        // Send the country name to the server
+        fetch('/country', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ name: name })
+        })
+        .then(response => {
+            // Check if the response is ok
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            const { countryCapital, date, hours, minutes, weekDay, temp, icon, weatherDesc, pop } = data;
+            if (name == "United States of America") {
+                name = "United States";
+            }
+            countryName.textContent = `${name}, ${countryCapital}`;
+            capitalName.textContent = `${countryCapital}`;
+            capitalTime.textContent = `${getTime(hours, minutes)}`;
+            capitalDate.textContent = `${formatDate(date, weekDay)}`;
+            weather_Desc.textContent = `${weatherDesc}`;
+            weatherIcon.src = `${getIcon(icon)}`;
+            cityTemp.textContent = `${getCelsius(temp)}`;
+            population.textContent = `${pop}`;
+            loadingIndicator.style.display = 'none';
+
+            // Show the rest of the content
+            document.querySelector('.hidden-content').style.display = 'block';
+        })
+        .catch(error => {
+            capitalName.textContent = 'aaa';
+            capitalTime.textContent = 'Failed to load time';
+        });
     }
-
-    // Send the country name to the server
-    fetch('/country', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ name: name })
-    })
-    .then(response => {
-        // Check if the response is ok
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
-        return response.json();
-    })
-    .then(data => {
-        const { countryCapital, date, hours, minutes, weekDay, temp, icon, weatherDesc, pop } = data;
-        if (name == "United States of America") {
-            name = "United States";
-        }
-        countryName.textContent = `${name}, ${countryCapital}`;
-        capitalName.textContent = `${countryCapital}`;
-        capitalTime.textContent = `${getTime(hours, minutes)}`;
-        capitalDate.textContent = `${formatDate(date, weekDay)}`;
-        weather_Desc.textContent = `${weatherDesc}`;
-        weatherIcon.src = `${getIcon(icon)}`;
-        cityTemp.textContent = `${getCelsius(temp)}`;
-        population.textContent = `${pop}`;
-        loadingIndicator.style.display = 'none';
-
-        // Show the rest of the content
-        document.querySelector('.hidden-content').style.display = 'block';
-    })
-    .catch(error => {
-        capitalName.textContent = 'aaa';
-        capitalTime.textContent = 'Failed to load time';
-    });
 }
 
 paths.forEach(country => {
