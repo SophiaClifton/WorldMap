@@ -220,7 +220,7 @@ app.post('/country', async (req, res) => {
 
         const pop = await getPopulationData(countryName, countryCapital, lat, long);
         responseData = { ...responseData, pop };
-
+        console.log(icon);
         res.json(responseData);
     } catch (error) {
         res.json({ ...responseData, error: error.message });

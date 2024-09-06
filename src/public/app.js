@@ -102,7 +102,11 @@ function getIcon(icon){
             document.getElementById('weatherBG').style.color = "#fce6ff";
             document.getElementById('weatherBG').style.backgroundImage = "url('gifs/cloud.gif')";
             return "images/cloud.png";
-        case "04d" || "04n":
+        case "04d":
+            document.getElementById('weatherBG').style.color = "#fce6ff";
+            document.getElementById('weatherBG').style.backgroundImage = "url('gifs/brokenClouds.gif')";
+            return "images/brokenClouds.png";
+        case "04n":
             document.getElementById('weatherBG').style.color = "#fce6ff";
             document.getElementById('weatherBG').style.backgroundImage = "url('gifs/brokenClouds.gif')";
             return "images/brokenClouds.png";
