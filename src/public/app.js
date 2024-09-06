@@ -173,6 +173,8 @@ function getCelsius(temp){
 function getTime(hours, minutes) {
     try{
         if(hours == undefined || minutes == undefined){throw error;}
+        hours = "12";
+        minutes = "01";
         var hours_12 = hours % 12;
         var time;
         
