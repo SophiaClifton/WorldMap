@@ -33,8 +33,7 @@ console.log('Connected as id ' + connection.threadId);
 });
 
 async function getCountryData(countryName) {
-    var countryCapital;
-    var countryRegion;
+    var countryCapital = "Unavailable";
     var lat;
     var long;
     var countryUrl = `https://restcountries.com/v3.1/name/${countryName}`;
@@ -44,17 +43,9 @@ async function getCountryData(countryName) {
 
         if (countryData && countryData[0]) {
             countryCapital = countryData[0].capital ? countryData[0].capital: 'Capital not found';
+            countryCapital=countryCapital[0];
         } else {
             throw new Error('Country not found');
-        }
-        if (countryData && countryData[0]) {
-            countryRegion=  countryData[0].region ? countryData[0].region : 'Region not found';
-            if(countryRegion == "Americas")
-            {
-                countryRegion= "America"
-            }
-        } else {
-            throw new Error('Region not found');
         }
         if (countryData && countryData[0]) {
             if(countryData[0].capitalInfo!={} && countryData[0].capitalInfo.latlng)
@@ -70,17 +61,17 @@ async function getCountryData(countryName) {
                 throw new Error('Lat/Long not found');
             }
         }
-        return {countryCapital, countryRegion, lat, long};
+        return {countryCapital, lat, long};
     } catch (error) {
-        console.error('Error fetching country data from API:', error);
-        throw new Error('Internal Server Error');
+        console.error('Error fetching country data from API');
+        return {countryCapital, lat, long};
     }
 }
 
 async function getCityWeatherData(city) {
     var temp;
-    var weatherDesc ="?";
-    var icon =":(";
+    var weatherDesc ="Unavailable";
+    var icon ;
     const weatherUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${api_key}`;
     try {
         const weatherResponse = await axios.get(weatherUrl);
@@ -107,54 +98,58 @@ async function getCityWeatherData(city) {
         return {temp, icon, weatherDesc};
         
     } catch (error) {
+        console.error('Error fetching weather data from API');
         return {temp, icon, weatherDesc};
-        console.error('Error fetching weather data from API:', error);
-        throw new Error('Internal Server Error');
     }
 }
 
 async function getCityTimezone(lat, long) {
     const timeUrl = `https://api.geoapify.com/v1/geocode/reverse?lat=${lat}&lon=${long}&format=json&apiKey=${time_key_api}`;
-
+    var timezone;
     try {
         const timeResponse = await axios.get(timeUrl);
         const timeData = timeResponse.data;
 
         if (timeData && timeData.results && timeData.results[0]) {
-            const timezone = timeData.results[0].timezone;
+            timezone = timeData.results[0].timezone;
             return timezone ? timezone.name || 'Timezone not found' : 'Timezone not found';
         } else {
             throw new Error('Timezone not found');
         }
     } catch (error) {
-        console.error('Error fetching time data from API:', error);
-        throw new Error('Internal Server Error');
+        console.error('Error fetching time data from API');
+        return timezone;
     }
 }
 
 
 async function getCityTime(timezone) {
     const timeUrl = `http://worldtimeapi.org/api/timezone/${timezone}`;
+    var date;
+        var hours;
+        var minutes;
+        var weekDay;
     try {
         const timeResponse = await axios.get(timeUrl);
         const timeData = timeResponse.data;
-
+    
         if (timeData && timeData.datetime) {
             const datetimeString = timeData.datetime;
-            const weekDay = timeData.day_of_week;
+            weekDay = timeData.day_of_week;
             const [datePart, timePartWithOffset] = datetimeString.split('T');
             const [timePart] = timePartWithOffset.split('+');
             const [year, month, day] = datePart.split('-');
-            const [hours, minutes, seconds] = timePart.split(':');
-            const date = `${year}-${month}-${day}`;
+            [hours, minutes, seconds] = timePart.split(':');
+            date = `${year}-${month}-${day}`;
             return {date, hours, minutes, weekDay };
             
         } else {
             throw new Error('Time data not found in response');
+            
         }
     } catch (error) {
-        console.error('Error fetching time data from API:', error);
-        throw new Error('Internal Server Error');
+        console.error('Error fetching time data from API');
+        return {date, hours, minutes, weekDay };
     }
 }
 
@@ -210,19 +205,26 @@ const getPopulationData = async (countryName, cityName, lat, long) => {
 
 app.post('/country', async (req, res) => {
     const countryName = req.body.name;
+    let responseData = {};
 
     try {
-        //console.log("api info being retrieved...");
-        const {countryCapital, countryRegion, lat, long} = await getCountryData(countryName);
-        const timezone = await getCityTimezone(lat, long);
-        const {date, hours, minutes, weekDay} = await getCityTime(timezone);
-        const  {temp, icon, weatherDesc} = await getCityWeatherData(countryCapital[0]);
-        //console.log("api info aquired...");
-        console.log(lat, long);
-        const pop = await getPopulationData(countryName, countryCapital[0],lat, long);
-        res.json({countryCapital, date, hours, minutes, weekDay, temp, icon, weatherDesc, pop});
-    } catch (error) {
-        res.status(500).json({ error: error.message });
-    }
+        const {countryCapital, lat, long} = await getCountryData(countryName);
+        responseData = { ...responseData, countryCapital, lat, long };
 
+        const timezone = await getCityTimezone(lat, long);
+        responseData = { ...responseData, timezone };
+
+        const {date, hours, minutes, weekDay} = await getCityTime(timezone);
+        responseData = { ...responseData, date, hours, minutes, weekDay };
+
+        const {temp, icon, weatherDesc} = await getCityWeatherData(countryCapital);
+        responseData = { ...responseData, temp, icon, weatherDesc };
+
+        const pop = await getPopulationData(countryName, countryCapital, lat, long);
+        responseData = { ...responseData, pop };
+
+        res.json(responseData);
+    } catch (error) {
+        res.json({ ...responseData, error: error.message });
+    }
 });

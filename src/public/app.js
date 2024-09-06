@@ -44,8 +44,8 @@ function fetchCountryData(name) {
         if (name == "United States of America") {
             name = "United States";
         }
-        countryName.textContent = `${name}, ${countryCapital[0]}`;
-        capitalName.textContent = `${countryCapital[0]}`;
+        countryName.textContent = `${name}, ${countryCapital}`;
+        capitalName.textContent = `${countryCapital}`;
         capitalTime.textContent = `${getTime(hours, minutes)}`;
         capitalDate.textContent = `${formatDate(date, weekDay)}`;
         weather_Desc.textContent = `${weatherDesc}`;
@@ -58,8 +58,7 @@ function fetchCountryData(name) {
         document.querySelector('.hidden-content').style.display = 'block';
     })
     .catch(error => {
-        console.error('Error:', error);
-        capitalName.textContent = 'Failed to load capital';
+        capitalName.textContent = 'aaa';
         capitalTime.textContent = 'Failed to load time';
     });
 }
@@ -130,9 +129,9 @@ function getIcon(icon){
             document.getElementById('weatherBG').style.backgroundImage = "url('gifs/mist.gif')";
             return "images/mist.png";
         default:
-            document.getElementById('weatherBG').style.color = "#0a7174";
-            document.getElementById('weatherBG').style.backgroundImage = "url('gifs/mist.gif')";
-            return "images/mist.png";
+            document.getElementById('weatherBG').style.color = "#fce6ff";
+            document.getElementById('weatherBG').style.backgroundImage = "url('gifs/unavailable.gif')";
+            return "images/unavailable.png";
     }
 }
 
@@ -147,35 +146,37 @@ function getCelsius(temp){
     }
 }
 
-function getTime(hours, minutes){
-    var hours_12=hours%12;
-    var time;
-    if(hours>12){
-        time = "pm";
+function getTime(hours, minutes) {
+    try {
+        if(hours == undefined || minutes == undefined){throw error;}
+        let hours_12 = hours % 12;
+        hours_12 = hours_12 ? hours_12 : 12; 
+        let time = hours >= 12 ? "pm" : "am";
+        let formattedMinutes = minutes < 10 ? '0' + minutes : minutes;
+        return `${hours_12}:${formattedMinutes}${time}`;
+    } catch (error) {
+        return `Failed to load time`;
     }
-    else if (hours == 12){
-        time = "pm";
-        hours_12 = 12;
-    }
-    else{
-        time = "am";
-    }
-    
-    return `${hours_12}:${minutes}${time}`;
 }
 
+
 function formatDate(date, weekDay) {
-    // Example input: '2024-08-16'
-    const dateArr = date.split("-");
-    const year = dateArr[0];
-    const monthNumber = dateArr[1];
-    const day = Number(dateArr[2]);
-  
-    const month = getAbbreviatedMonth(monthNumber);
-    const week_day = getAbbreviatedDay(weekDay);
+    try{
+        // Example input: '2024-08-16'
+        const dateArr = date.split("-");
+        const year = dateArr[0];
+        const monthNumber = dateArr[1];
+        const day = Number(dateArr[2]);
     
-    const dateString = `${week_day}, ${day} ${month} ${year}`;
-    return dateString;
+        const month = getAbbreviatedMonth(monthNumber);
+        const week_day = getAbbreviatedDay(weekDay);
+        
+        const dateString = `${week_day}, ${day} ${month} ${year}`;
+        return dateString;
+    }
+    catch(error){
+        return "Date failed to load";
+    }
   }
 
 function getAbbreviatedMonth(monthNumber) {
@@ -242,4 +243,3 @@ function toggleDarkMode() {
     }
     document.body.classList.toggle('dark-mode');
 }
-
