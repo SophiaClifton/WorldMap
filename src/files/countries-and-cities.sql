@@ -42938,9 +42938,9 @@ INSERT INTO `cities` (`id`, `country_id`, `city`, `latitude`, `longitude`, `popu
 	(42902, 238, "Juana Diaz", 18.0532, -66.5047, 6636),
 	(42903, 238, "Ceiba", 18.265, -65.6488, 5551),
 	(42904, 238, "Coco", 18.001, -66.2603, 5108),
-	(42905, 239, "Charlotte Amalie", 18.3419, -64.9332, 0);
-	(42905, 240, "Gaza", 31.5, 34.46, 590000);
-	(42905, 240, "Ramallah", 31.9, 35.2, 38998);
+	(42905, 239, "Charlotte Amalie", 18.3419, -64.9332, 0),
+	(42906, 240, "Gaza", 31.5, 34.46, 590000),
+	(42907, 240, "Ramallah", 31.9, 35.2, 38998);
 
 /*!40000 ALTER TABLE `cities` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -43199,7 +43199,7 @@ INSERT INTO `countries` (`id`, `country`) VALUES
 	(213, "West Bank"),
 	(50, "Yemen"),
 	(79, "Zambia"),
-	(64, "Zimbabwe");
+	(64, "Zimbabwe"),
 	(240, "Palestine");/*had to make my own entry*/
 
 /*!40000 ALTER TABLE `countries` ENABLE KEYS */;

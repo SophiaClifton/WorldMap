@@ -20,7 +20,7 @@ const connection = mysql.createConnection({
     user: process.env.DB_USER,
     password: process.env.DB_PASSWORD,
     database: process.env.DB_NAME,
-    insecureAuth: true
+    port: process.env.DB_PORT
   });
 connection.connect((err) => {
 if (err) {
