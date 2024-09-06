@@ -171,14 +171,25 @@ function getCelsius(temp){
 }
 
 function getTime(hours, minutes) {
-    try {
+    try{
         if(hours == undefined || minutes == undefined){throw error;}
-        let hours_12 = hours % 12;
-        let time = hours >= 12 ? "pm" : "am";
+        var hours_12 = hours % 12;
+        var time;
+        
+        if (hours >= 12) {
+            time = "pm";
+        } else {
+            time = "am";
+        }
+        
+        if (hours_12 === 0) {
+            hours_12 = 12;
+        }
+        
         return `${hours_12}:${minutes}${time}`;
+
     } catch (error) {
-        return `Failed to load time`;
-    }
+        return `Failed to load time`;}
 }
 
 function formatDate(date, weekDay) {
