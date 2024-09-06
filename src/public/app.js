@@ -174,7 +174,6 @@ function getTime(hours, minutes) {
     try {
         if(hours == undefined || minutes == undefined){throw error;}
         let hours_12 = hours % 12;
-        hours_12 = hours_12 ? hours_12 : 12; 
         let time = hours >= 12 ? "pm" : "am";
         return `${hours_12}:${minutes}${time}`;
     } catch (error) {
