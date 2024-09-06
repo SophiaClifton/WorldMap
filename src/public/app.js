@@ -97,8 +97,11 @@ function getIcon(icon){
             document.getElementById('weatherBG').style.color = "#fce6ff";
             document.getElementById('weatherBG').style.backgroundImage = "url('gifs/cloudMoon.gif')";
             return "images/cloudMoon.png";
-        case "03d" || "03n":
-            //?
+        case "03d":
+            document.getElementById('weatherBG').style.color = "#fce6ff";
+            document.getElementById('weatherBG').style.backgroundImage = "url('gifs/cloud.gif')";
+            return "images/cloud.png";
+        case "03n":
             document.getElementById('weatherBG').style.color = "#fce6ff";
             document.getElementById('weatherBG').style.backgroundImage = "url('gifs/cloud.gif')";
             return "images/cloud.png";
@@ -110,7 +113,11 @@ function getIcon(icon){
             document.getElementById('weatherBG').style.color = "#fce6ff";
             document.getElementById('weatherBG').style.backgroundImage = "url('gifs/brokenClouds.gif')";
             return "images/brokenClouds.png";
-        case "09d" || "09n":
+        case "09d":
+            document.getElementById('weatherBG').style.color = "#fce6ff";
+            document.getElementById('weatherBG').style.backgroundImage = "url('gifs/rain.gif')";
+            return "images/rain.png";
+        case "09n":
             document.getElementById('weatherBG').style.color = "#fce6ff";
             document.getElementById('weatherBG').style.backgroundImage = "url('gifs/rain.gif')";
             return "images/rain.png";
@@ -122,15 +129,27 @@ function getIcon(icon){
             document.getElementById('weatherBG').style.color = "#fce6ff";
             document.getElementById('weatherBG').style.backgroundImage = "url('gifs/moonRain.gif')";
             return "images/moonRain.png";
-        case "11d" || "11n":
+        case "11d":
             document.getElementById('weatherBG').style.color = "#fce6ff";
             document.getElementById('weatherBG').style.backgroundImage = "url('gifs/storm.gif')";
             return "images/storm.png";
-        case "13d" || "13n":
+        case "11n":
+            document.getElementById('weatherBG').style.color = "#fce6ff";
+            document.getElementById('weatherBG').style.backgroundImage = "url('gifs/storm.gif')";
+            return "images/storm.png";
+        case "13d":
             document.getElementById('weatherBG').style.color = "#262f5d";
             document.getElementById('weatherBG').style.backgroundImage = "url('gifs/snow.gif')";
             return "images/snow.png";
-        case "50d" || "50n":
+        case "13n":
+            document.getElementById('weatherBG').style.color = "#262f5d";
+            document.getElementById('weatherBG').style.backgroundImage = "url('gifs/snow.gif')";
+            return "images/snow.png";
+        case "50d":
+            document.getElementById('weatherBG').style.color = "#0a7174";
+            document.getElementById('weatherBG').style.backgroundImage = "url('gifs/mist.gif')";
+            return "images/mist.png";
+        case "50n":
             document.getElementById('weatherBG').style.color = "#0a7174";
             document.getElementById('weatherBG').style.backgroundImage = "url('gifs/mist.gif')";
             return "images/mist.png";
@@ -162,7 +181,6 @@ function getTime(hours, minutes) {
         return `Failed to load time`;
     }
 }
-
 
 function formatDate(date, weekDay) {
     try{
