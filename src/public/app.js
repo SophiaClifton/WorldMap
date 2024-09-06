@@ -139,7 +139,6 @@ function getIcon(icon){
 
 function getCelsius(temp){
     if(temp != undefined){
-        console.log(temp);
         const celsius = Number(temp)-273.15;
         return Math.round(celsius * 10) / 10+"°C";
     }
