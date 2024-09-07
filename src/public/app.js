@@ -59,8 +59,6 @@ function fetchCountryData(name) {
         document.querySelector('.hidden-content').style.display = 'block';
     })
     .catch(error => {
-        capitalName.textContent = 'aaa';
-        capitalTime.textContent = 'Failed to load time';
     });
 }
 
