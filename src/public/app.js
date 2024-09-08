@@ -59,6 +59,7 @@ function fetchCountryData(name) {
         document.querySelector('.hidden-content').style.display = 'block';
     })
     .catch(error => {
+        console.log(error);
     });
 }
 

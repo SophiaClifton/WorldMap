@@ -70,7 +70,12 @@ async function getCityWeatherData(city) {
     var temp;
     var weatherDesc ="Unavailable";
     var icon ;
+    if(city == "Washington, D.C."){
+        city = "Washington, D.C.,US"; // api for weather is picky :)
+    }
     const weatherUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${api_key}`;
+    console.log(city);
+    console.log(weatherUrl);
     try {
         const weatherResponse = await axios.get(weatherUrl);
         const weatherData = weatherResponse.data;
