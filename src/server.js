@@ -22,7 +22,7 @@ const connection = mysql.createConnection({
     database: process.env.DB_NAME,
     port: process.env.DB_PORT,
     ssl: {
-        ca: process.env.DB_CA_CERT
+        ca: process.env.DB_CA_CERT.replace(/\\n/g, '\n') 
     }
   });
 connection.connect((err) => {
