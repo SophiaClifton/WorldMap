@@ -1,7 +1,7 @@
 const express = require("express");
 const path = require("path");
 const axios = require("axios");
-const mysql = require('mysql');
+const mysql = require('mysql2');
 require('dotenv').config();
 
 const api_key = process.env.API_KEY;
@@ -22,7 +22,7 @@ const connection = mysql.createConnection({
     database: process.env.DB_NAME,
     port: process.env.DB_PORT,
     ssl: {
-        ca: process.env.DB_CA_CERT
+        ca: process.env.DB_CA_CERT.replace(/\\n/g, '\n')
     }
   });
 connection.connect((err) => {
