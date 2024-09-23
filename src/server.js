@@ -15,20 +15,15 @@ app.get('/', (req, res) => {
 
 app.listen(3000, () => console.log("Server started on port 3000"))
 
-const connection = mysql.createConnection({
-    host: process.env.DB_HOST,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    database: process.env.DB_NAME,
-    port: process.env.DB_PORT
-  });
-connection.connect((err) => {
-if (err) {
-    console.error('Error connecting: ' + err.stack);
-    return;
-}
-console.log('Connected as id ' + connection.threadId);
-});
+const createConnection = () => {
+    return mysql.createConnection({
+        host: process.env.DB_HOST,
+        user: process.env.DB_USER,
+        password: process.env.DB_PASSWORD,
+        database: process.env.DB_NAME,
+        port: process.env.DB_PORT
+    });
+};
 
 async function getCountryData(countryName) {
     var countryCapital = "Unavailable";
@@ -157,6 +152,16 @@ async function getCityTime(timezone) {
 }
 
 const getPopulationData = async (countryName, cityName, lat, long) => {
+    const connection = createConnection();
+    connection.connect((err) => {
+        if (err) {
+            console.error('Error connecting: ' + err.stack);
+            return;
+        }
+        console.log('Connected as id ' + connection.threadId);
+    });
+
+
     if(countryName=="United States of America"){
         const query = `
         SELECT ci.population, c.id
@@ -167,6 +172,7 @@ const getPopulationData = async (countryName, cityName, lat, long) => {
 
         return new Promise((resolve, reject) => {
             connection.query(query, [countryName, lat, long], (error, results) => {
+                connection.end();
                 if (error) {
                     console.error("Database query error:", error);
                     return reject("An error occurred while fetching data.");
@@ -192,6 +198,7 @@ const getPopulationData = async (countryName, cityName, lat, long) => {
   
         return new Promise((resolve, reject) => {
             connection.query(query, [countryName, cityName], (error, results) => {
+                connection.end();
                 if (error) return reject(error);
     
                 if (results.length > 0) {
