@@ -1,7 +1,7 @@
 const express = require("express");
 const path = require("path");
 const axios = require("axios");
-const mysql = require('mysql2');
+const mysql = require('mysql');
 require('dotenv').config();
 
 const api_key = process.env.API_KEY;
