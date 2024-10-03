@@ -30,7 +30,7 @@ PS! Drag the info box around the screen to see each unique weather background! â
 
 ## Contact
 
-For any questions or suggestions, feel free to reach out to Sophia Clifton.
+For any questions or suggestions, feel free to reach out to me at sophiashoco@gmail.com.
 
 ---
 
